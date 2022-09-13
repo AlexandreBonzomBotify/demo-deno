@@ -1,7 +1,10 @@
-FROM jarredsumner/bun:edge
+FROM hayd/alpine-deno:1.7.1
+
 WORKDIR /app
-COPY package.json package.json
-RUN bun install
-COPY . .
-EXPOSE 3000
-ENTRYPOINT ["bun", "index.js"]
+
+USER deno
+
+# These steps will be re-run upon each file change in your working directory:
+ADD . .
+
+CMD deno run --allow-net --allow-env server.ts
